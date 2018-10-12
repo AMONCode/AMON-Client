@@ -128,7 +128,7 @@ def check_for_files(hostport, eventpath, keyfile, certfile):
             oldest = files_xml[0] 
             
             try:
-                datafile=open(path+oldest)
+                datafile=open(os.path.join(path,oldest))
                 #data=datafile.read()
                 #lenght_data=str(len(data))
                 #body = StringProducer(data)
