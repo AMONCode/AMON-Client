@@ -15,7 +15,7 @@ You can find this subdirectory by doing
 
 Both scripts that are in this repository, should be moved to the path `$PYTHONPATH/lib/python2.7/site-packages/twisted/plugins/`.
 
-[//]: # Each alert sent to AMON is moved to the archive subdirectory alerts/archive. ###
+[//]: # Each alert sent to AMON is moved to the archive subdirectory alerts/archive.
 
 ## How to use it:
 
