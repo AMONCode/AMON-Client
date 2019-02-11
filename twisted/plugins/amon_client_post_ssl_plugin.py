@@ -13,16 +13,13 @@ import sys, getopt, os, shutil, datetime
 import resource
 import fcntl
 
-sys.path.append("../../")
-
-
 from zope.interface import implements
 from twisted.application import internet, service
 from twisted.application.internet import TimerService
 from twisted.plugin import IPlugin
 from twisted.python import usage, log
 
-from amon_client_post_ssl import check_for_files
+from .amon_client_post_ssl import check_for_files
 from twisted.python import usage, log
 # Make a plugin using IServiceMaker                
  
@@ -31,6 +28,7 @@ class Options(usage.Options):
     optParameters = [
         ['hostport', 'hp', None, 'The host for https address.'],
         ['epath', None, None, 'Path to the directory with VOEvents'],
+	['finaldir',None,None, 'Directory name for final position'],
         ['kfile', None, None,'Key file name'],
         ['cfile', None,None, 'Certificate name'],
         ]
@@ -45,8 +43,8 @@ class ClientPostServiceMaker(object):
     
     def makeService(self, options):
         #check directory with events for an oldest file
-        # do it every 5 second using TimerService     
-        loop_service = TimerService(1.0, check_for_files, options['hostport'], options['epath'],
+        # do it every 10 second using TimerService     
+        loop_service = TimerService(10.0, check_for_files, options['hostport'], options['epath'], options['finaldir'],
                         options['kfile'], options['cfile'])
         loop_service.startService()
         return loop_service
