@@ -11,11 +11,13 @@ This client is run as a plugin with the *twisted* program.
 *Twisted* requires a following subdirectory structure: twisted/plugins to exist. 
 You can find this subdirectory by doing
 
-> which python
+```
+which python
+```
 
 Both scripts that are in this repository, should be moved to the path `$PYTHONPATH/lib/python2.7/site-packages/twisted/plugins/`.
 
-[//]: # Each alert sent to AMON is moved to the archive subdirectory alerts/archive.
+<!-- Each alert sent to AMON is moved to the archive subdirectory alerts/archive. -->
 
 ## How to use it:
 
@@ -26,13 +28,19 @@ Once you have copied both scripts in the installed _twisted/plugins_ directory y
 _You can also define a directory for the log files_
 
 #### send to the development AMON machine###
+```
 twistd -l client.log --pidfile client.pid clientpostssl --hostport "https://192.5.158.145/amon" --epath /path/to/alerts/ --finaldir $NAMEOFFINALDIR --cfile client_ic_dev.crt --kfile client_ic_dev.key
+```
 
 #### send to the production AMON dual servers###
+```
 twistd -l client.log --pidfile client.pid clientpostssl --hostport "https://192.5.158.139/amon" --epath /path/to/alerts/ --finaldir $NAMEOFFINALDIR --cfile client_ic_dev.crt --kfile client_ic_dev.key
+```
 
 #### Kill Daemon
+```
 kill `cat client.pid`
+```
 
 ## Dependencies:
  * Twisted >=18.9.0 (recommended >=15.1.1) 
