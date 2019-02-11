@@ -76,8 +76,6 @@ class MyClientContextFactory(object):
     isClient = 1
     method = SSL.SSLv23_METHOD
     def __init__(self,certfile,keyfile):
-    #certificateFileName = '/Users/Goci/work/AMON/AmonPy/amonpy/ops/network/client.crt'
-    #privateKeyFileName ='/Users/Goci/work/AMON/AmonPy/amonpy/ops/network/client.key'
         self.certificateFileName = certfile
         self.privateKeyFileName = keyfile
     def getContext(self, hostname,port):
@@ -88,7 +86,7 @@ class MyClientContextFactory(object):
         ctx.use_privatekey_file(self.privateKeyFileName)
         return ctx
                 
-def check_for_files(hostport, eventpath, keyfile, certfile):
+def check_for_files(hostport, eventpath, finaldir, keyfile, certfile):
     # check a directory with events (eventpath) for an oldest xml file
     # if found post it to the server (hostport) using HTTP POST protocol
     
@@ -108,6 +106,7 @@ def check_for_files(hostport, eventpath, keyfile, certfile):
     if (len(fds)<=soft):
         host=hostport
         path=eventpath
+        fdir = finaldir
         fkey = keyfile
         fcert = certfile
                 
@@ -126,13 +125,14 @@ def check_for_files(hostport, eventpath, keyfile, certfile):
             
         if len(files_xml)>0:
             oldest = files_xml[0] 
+            oldpos = os.path.join(path,oldest)
+            newpos = os.path.join(path,fdir,oldest)
+            print "old location: %s, new location %s"%(oldpos,newpos)
             
             try:
-                datafile=open(os.path.join(path,oldest))
-                #data=datafile.read()
-                #lenght_data=str(len(data))
-                #body = StringProducer(data)
+                datafile=open(oldpos)
                 body=FileBodyProducer(datafile)
+                # since twisted v.15 length is string
                 length_data=str(body.length)
                 headers = http_headers.Headers({'User-Agent': ['Twisted HTTP Client'],
                                             'Content-Type':['text/xml'], 
@@ -141,11 +141,14 @@ def check_for_files(hostport, eventpath, keyfile, certfile):
                 d = agent.request('POST', host, headers, bodyProducer=body)
                 # on success it returns Deferred with a response object
                 d.addCallbacks(printResource, printError)
-                shutil.move(os.path.join(path,oldest), os.path.join(path,"archive/",oldest))
+                shutil.move(oldpos,newpos)
                 #datafile.close()
                 #print "Event %s sent" % (oldest,)
-            except (RuntimeError, TypeError, NameError,AttributeError, Exception):
+            except (RuntimeError, TypeError, NameError,AttributeError, Exception) as e:
                 log.msg("Error parsing file %s " % (oldest,))
+                log.msg("Possible pointer to error: "+str(e))
+            else:
+                print "ping db"
             
         else:
             pass
