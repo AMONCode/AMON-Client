@@ -23,16 +23,16 @@ Both scripts that are in this repository, should be moved to the path `$PYTHONPA
 
 Once you have copied both scripts in the installed _twisted/plugins_ directory you can run the following commands. You can also run them in bash scripts. You will need to receive the certificate and key files for SSL connection. 
 
-### START DAEMON - run one of the two commands bellow ###
+### START DAEMON - run one of the two commands bellow 
 
 _You can also define a directory for the log files_
 
-#### send to the development AMON machine###
+#### Send to the development AMON machine
 ```
 twistd -l client.log --pidfile client.pid clientpostssl --hostport "https://192.5.158.145/amon" --epath /path/to/alerts/ --finaldir $NAMEOFFINALDIR --cfile client_ic_dev.crt --kfile client_ic_dev.key
 ```
 
-#### send to the production AMON dual servers###
+#### Send to the production AMON dual servers
 ```
 twistd -l client.log --pidfile client.pid clientpostssl --hostport "https://192.5.158.139/amon" --epath /path/to/alerts/ --finaldir $NAMEOFFINALDIR --cfile client_ic_dev.crt --kfile client_ic_dev.key
 ```
