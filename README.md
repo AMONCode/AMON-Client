@@ -4,24 +4,33 @@ This project contains AMON HTTPS Post client used to sent alerts to  the AMON se
 Before running this plugin, create a subdirectory alert and alerts/archive.
 
 Download or clone this git repository. 
-The main directory contains the AMON client module *amon_client_post_ssl.py*.
+The main directory `client` contains the AMON client module *amon_client_post_ssl.py*.
 The `twisted/plugin` directory containes the plugin *amon_client_post_ssl_plugin.py*
 
 This client is run as a plugin with the *twisted* program. 
-*Twisted* requires a following subdirectory structure: twisted/plugins to exist. 
-You can find this subdirectory by doing
+*Twisted* can be installed using the command 
 
 ```
-which python
+pip install twisted
 ```
 
-Both scripts that are in this repository, should be moved to the path `$PYTHONPATH/lib/python2.7/site-packages/twisted/plugins/`.
+Once you know *twisted* is installed, you can clone this directory and install the AMON-client using 
+
+```
+python setup.py install 
+```
+
+You can add the flag `--user` depending on how you manage your python installations.
+
+To check that the installation work you can run the command `twistd --help`. This should display the available commands that can be used with *twisted*.
+
+The command that should appear in the list is `clientpostssl`.    
 
 <!-- Each alert sent to AMON is moved to the archive subdirectory alerts/archive. -->
 
 ## How to use it:
 
-Once you have copied both scripts in the installed _twisted/plugins_ directory you can run the following commands. You can also run them in bash scripts. You will need to receive the certificate and key files for SSL connection. 
+You will need to receive the certificate and key files for SSL connection. Ask any of the AMON team members for them. 
 
 ### START DAEMON - run one of the two commands bellow 
 
@@ -49,3 +58,14 @@ kill `cat client.pid`
  * cffi (recommended >=1.1.0) 
  * cryptography (recommended >=0.9) 
  * service_identity > 14.0.0 (recommneded >=16.0.0) 
+
+## Uninstall
+
+To uninstall the twisted plugin run the command
+
+```
+pip uninstall AMON-client
+```
+
+This will remove the command from the *twisted* program. 
+
