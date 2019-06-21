@@ -19,7 +19,7 @@ from twisted.application.internet import TimerService
 from twisted.plugin import IPlugin
 from twisted.python import usage, log
 
-from .amon_client_post_ssl import check_for_files
+from client.amon_client_post_ssl import check_for_files
 from twisted.python import usage, log
 # Make a plugin using IServiceMaker                
  

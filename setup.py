@@ -26,6 +26,27 @@ def refresh_plugin_cache():
     from twisted.plugin import IPlugin, getPlugins
     list(getPlugins(IPlugin))
 
+try:
+    from setuptools.command import egg_info
+    egg_info.write_toplevel_names
+except (ImportError, AttributeError):
+    pass
+else:
+    def _top_level_package(name):
+        return name.split('.', 1)[0]
+
+    def _hacked_write_toplevel_names(cmd, basename, filename):
+        pkgs = dict.fromkeys(
+            [_top_level_package(k)
+                for k in cmd.distribution.iter_distribution_names()
+                if _top_level_package(k) != "twisted"
+            ]
+        )
+        cmd.write_file("top-level names", filename, '\n'.join(pkgs) + '\n')
+
+    egg_info.write_toplevel_names = _hacked_write_toplevel_names
+
+
 setup(
     name="AMON-client",
     version = "1.0",
@@ -34,7 +55,7 @@ setup(
     author_email = 'hgayala@psu.edu',
     packages = [
         "client",
-        "twisted.plugins",
+        "twisted/plugins",
     ],
     package_data={
        'twisted':['plugins/amon_client_post_ssl_plugin.py']
