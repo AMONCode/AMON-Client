@@ -34,9 +34,13 @@ class ResourcePrinter(Protocol):
         print 'Finished receiving body:', reason.getErrorMessage()
         self.finished.callback(None)
 
-def printResource(response):
+def printResource(response,oldpos=None,newpos=None):
     finished = Deferred()
     response.deliverBody(ResourcePrinter(finished))
+    if oldpos is not None:
+        if newpos is not None:
+            shutil.move(oldpos,newpos)
+            print "old location: %s, new location %s"%(oldpos,newpos)
     return finished
 
 def printError(failure):
@@ -127,7 +131,6 @@ def check_for_files(hostport, eventpath, finaldir, keyfile, certfile):
             oldest = files_xml[0] 
             oldpos = os.path.join(path,oldest)
             newpos = os.path.join(path,fdir,oldest)
-            print "old location: %s, new location %s"%(oldpos,newpos)
             
             try:
                 datafile=open(oldpos)
@@ -140,8 +143,8 @@ def check_for_files(hostport, eventpath, finaldir, keyfile, certfile):
                                             'Content-Name':[oldest]})
                 d = agent.request('POST', host, headers, bodyProducer=body)
                 # on success it returns Deferred with a response object
-                d.addCallbacks(printResource, printError)
-                shutil.move(oldpos,newpos)
+                d.addCallbacks(printResource, printError,callbackArgs=(oldpos,newpos))
+                #shutil.move(oldpos,newpos)
                 #datafile.close()
                 #print "Event %s sent" % (oldest,)
             except (RuntimeError, TypeError, NameError,AttributeError, Exception) as e:
