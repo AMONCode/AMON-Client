@@ -61,6 +61,7 @@ setup(
        'twisted':['plugins/amon_client_post_ssl_plugin.py']
     },
     include_package_data = True,
+    zip_safe=False,
     )
 
 refresh_plugin_cache()
