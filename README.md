@@ -1,7 +1,7 @@
 # AMON Client
 
 This project contains AMON HTTPS Post client used to sent alerts to  the AMON servers.
-Before running this plugin, create a subdirectory alert and alerts/archive.
+Before running this plugin, create a subdirectory alert and alerts/archive. As of July 2nd 2019, it is compatibley with Python3. 
 
 Download or clone this git repository. 
 The main directory `client` contains the AMON client module *amon_client_post_ssl.py*.
@@ -52,7 +52,7 @@ kill `cat client.pid`
 ```
 
 ## Dependencies:
- * Twisted >=18.9.0 (recommended >=15.1.1) 
+ * Twisted >=19.2.1 (recommended >=15.1.1) 
  * PyOpenSSL >=0.14 (recommended >=0.15.11) 
  * pycrypto >= 2.6.1 
  * cffi (recommended >=1.1.0) 
