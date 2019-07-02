@@ -28,10 +28,10 @@ class ResourcePrinter(Protocol):
         self.finished = finished
 
     def dataReceived(self, data):
-        print data
+        print(data)
 
     def connectionLost(self, reason):
-        print 'Finished receiving body:', reason.getErrorMessage()
+        print('Finished receiving body:', reason.getErrorMessage())
         self.finished.callback(None)
 
 def printResource(response,oldpos=None,newpos=None):
@@ -40,27 +40,27 @@ def printResource(response,oldpos=None,newpos=None):
     if oldpos is not None:
         if newpos is not None:
             shutil.move(oldpos,newpos)
-            print "old location: %s, new location %s"%(oldpos,newpos)
+            print("old location: %s, new location %s"%(oldpos,newpos))
     return finished
 
 def printError(failure):
     #d=Deferred()
     #d.addCallbacks(printNotSent)
     #print >>sys.stderr, failure
-    print type(failure.value), failure
+    print(type(failure.value), failure)
     failure.value.reasons[0].printTraceback()
 def stop(result):
     reactor.stop()
     
 def moveFile(path,fname):
     shutil.move(path+fname, path+"archive/"+fname) 
-    print "File %s sent" % (fname,)  
+    print("File %s sent" % (fname,)) 
     
 def printSent(fname):
-    print "File %s sent" % (fname,) 
+    print("File %s sent" % (fname,))
      
 def printNotSent(filename):
-    print "File %s not sent" % (fname,)  
+    print("File %s not sent" % (fname,)) 
     
 def check_open_fds():
     fds = []
@@ -151,7 +151,7 @@ def check_for_files(hostport, eventpath, finaldir, keyfile, certfile):
                 log.msg("Error parsing file %s " % (oldest,))
                 log.msg("Possible pointer to error: "+str(e))
             else:
-                print "ping db"
+                print("ping db")
             
         else:
             pass
