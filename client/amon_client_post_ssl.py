@@ -2,9 +2,14 @@
 client that sends events to the server using HTTP 
 protocol with method=POST over TLS with certificate and key file client.crt and client.key
 """
+from __future__ import absolute_import
+from __future__ import division
+from __future__ import print_function
+
 import sys, getopt, os, shutil, logging, datetime
 import resource
 import fcntl
+import traceback, io
 
 from twisted.internet import reactor, ssl, tcp, interfaces
 from twisted.python import usage, log
@@ -39,20 +44,22 @@ def printResource(response,oldpos=None,newpos=None):
     response.deliverBody(ResourcePrinter(finished))
     if oldpos is not None:
         if newpos is not None:
-            shutil.move(oldpos,newpos)
-            print("old location: %s, new location %s"%(oldpos,newpos))
+            shutil.move(oldpos, newpos)
+            print("old location: %s, new location %s"%(oldpos, newpos))
     return finished
 
 def printError(failure):
     #d=Deferred()
     #d.addCallbacks(printNotSent)
     #print >>sys.stderr, failure
-    print(type(failure.value), failure)
+    #print(type(failure.value), failure)
     failure.value.reasons[0].printTraceback()
+
+
 def stop(result):
     reactor.stop()
     
-def moveFile(path,fname):
+def moveFile(path, fname):
     shutil.move(path+fname, path+"archive/"+fname) 
     print("File %s sent" % (fname,)) 
     
@@ -79,10 +86,10 @@ class MyClientContextFactory(object):
 
     isClient = 1
     method = SSL.SSLv23_METHOD
-    def __init__(self,certfile,keyfile):
+    def __init__(self, certfile, keyfile):
         self.certificateFileName = certfile
         self.privateKeyFileName = keyfile
-    def getContext(self, hostname,port):
+    def getContext(self, hostname, port):
         ctx = SSL.Context(self.method)
         ctx.set_options(SSL.OP_NO_SSLv2)
         ctx.set_options(SSL.OP_NO_SSLv3)
@@ -108,13 +115,13 @@ def check_for_files(hostport, eventpath, finaldir, keyfile, certfile):
         fds.append(fd)
         
     if (len(fds)<=soft):
-        host=hostport
+        host=hostport.encode()
         path=eventpath
         fdir = finaldir
         fkey = keyfile
         fcert = certfile
                 
-        agent = Agent(reactor,MyClientContextFactory(fcert,fkey))
+        agent = Agent(reactor, MyClientContextFactory(fcert, fkey))
         
         files = sorted(os.listdir(path), key=lambda p: os.path.getctime(os.path.join(path, p)))
         files_xml=[]
@@ -129,11 +136,11 @@ def check_for_files(hostport, eventpath, finaldir, keyfile, certfile):
             
         if len(files_xml)>0:
             oldest = files_xml[0] 
-            oldpos = os.path.join(path,oldest)
-            newpos = os.path.join(path,fdir,oldest)
+            oldpos = os.path.join(path, oldest)
+            newpos = os.path.join(path, fdir, oldest)
             
             try:
-                datafile=open(oldpos)
+                datafile=open(oldpos,'rb')
                 body=FileBodyProducer(datafile)
                 # since twisted v.15 length is string
                 length_data=str(body.length)
@@ -141,15 +148,14 @@ def check_for_files(hostport, eventpath, finaldir, keyfile, certfile):
                                             'Content-Type':['text/xml'], 
                                             'Content-Lenght': [length_data],
                                             'Content-Name':[oldest]})
-                d = agent.request('POST', host, headers, bodyProducer=body)
+                method = b'POST'#.encode()
+                d = agent.request(method, host, headers=headers, bodyProducer=body)
                 # on success it returns Deferred with a response object
-                d.addCallbacks(printResource, printError,callbackArgs=(oldpos,newpos))
-                #shutil.move(oldpos,newpos)
-                #datafile.close()
-                #print "Event %s sent" % (oldest,)
-            except (RuntimeError, TypeError, NameError,AttributeError, Exception) as e:
+                d.addCallbacks(printResource, printError, callbackArgs=(oldpos, newpos))
+            except (RuntimeError, TypeError, NameError, AttributeError, Exception) as e:
                 log.msg("Error parsing file %s " % (oldest,))
-                log.msg("Possible pointer to error: "+str(e))
+                log.msg("Error: "+str(e))
+                log.msg(traceback.print_exc())
             else:
                 print("ping db")
             

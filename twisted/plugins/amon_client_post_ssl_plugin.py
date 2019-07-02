@@ -13,7 +13,7 @@ import sys, getopt, os, shutil, datetime
 import resource
 import fcntl
 
-from zope.interface import implements
+from zope.interface import implements,implementer
 from twisted.application import internet, service
 from twisted.application.internet import TimerService
 from twisted.plugin import IPlugin
@@ -28,15 +28,16 @@ class Options(usage.Options):
     optParameters = [
         ['hostport', 'hp', None, 'The host for https address.'],
         ['epath', None, None, 'Path to the directory with VOEvents'],
-	['finaldir',None,None, 'Directory name for final position'],
-        ['kfile', None, None,'Key file name'],
-        ['cfile', None,None, 'Certificate name'],
+        ['finaldir', None, None, 'Directory name for final position'],
+        ['kfile', None, None, 'Key file name'],
+        ['cfile', None, None, 'Certificate name'],
         ]
-		
+#@implementer(service.IServiceMaker, IPlugin)	
+@implementer(IPlugin, service.IServiceMaker)	
 class ClientPostServiceMaker(object):
     
-    implements(service.IServiceMaker, IPlugin)
-
+    #implements(service.IServiceMaker, IPlugin)
+         
     tapname = "clientpostssl"
     description = "Client http post events + ssl."
     options = Options
