@@ -43,7 +43,7 @@ twistd -l client.log --pidfile client.pid clientpostssl --hostport "https://192.
 
 #### Send to the production AMON dual servers
 ```
-twistd -l client.log --pidfile client.pid clientpostssl --hostport "https://192.5.158.139/amon" --epath /path/to/alerts/ --finaldir $NAMEOFFINALDIR --cfile client_ic_dev.crt --kfile client_ic_dev.key
+twistd -l client.log --pidfile client.pid clientpostssl --hostport "https://192.5.158.139/amon" --epath /path/to/alerts/ --finaldir $NAMEOFFINALDIR --cfile client_ic_prod.crt --kfile client_ic_prod.key
 ```
 
 #### Kill Daemon
