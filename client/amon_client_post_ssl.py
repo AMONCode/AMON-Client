@@ -44,8 +44,15 @@ def printResource(response,oldpos=None,newpos=None):
     response.deliverBody(ResourcePrinter(finished))
     if oldpos is not None:
         if newpos is not None:
-            shutil.move(oldpos, newpos)
-            print("old location: %s, new location %s"%(oldpos, newpos))
+            try:
+                shutil.move(oldpos, newpos)
+                print("old location: %s, new location %s"%(oldpos, newpos))
+            except IOError:
+                if os.path.isfile(newpos):
+                    print("File already moved")
+                else:
+                    print("Check file: %s or %s"%(oldpos,newpos)) 
+                
     return finished
 
 def printError(failure):
