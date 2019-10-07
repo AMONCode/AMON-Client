@@ -46,6 +46,8 @@ twistd -l client.log --pidfile client.pid clientpostssl --hostport "https://192.
 twistd -l client.log --pidfile client.pid clientpostssl --hostport "https://192.5.158.139/amon" --epath /path/to/alerts/ --finaldir $NAMEOFFINALDIR --cfile client_ic_prod.crt --kfile client_ic_prod.key
 ```
 
+_An extra option is available to define the time in seconds to check files in epath_ `--looptime` 
+
 #### Kill Daemon
 ```
 kill `cat client.pid`
