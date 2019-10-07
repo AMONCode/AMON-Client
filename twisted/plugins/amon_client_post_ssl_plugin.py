@@ -31,6 +31,7 @@ class Options(usage.Options):
         ['finaldir', None, None, 'Directory name for final position'],
         ['kfile', None, None, 'Key file name'],
         ['cfile', None, None, 'Certificate name'],
+        ['looptime','lt',10.0,'How often to check epath for files in seconds'],
         ]
 #@implementer(service.IServiceMaker, IPlugin)	
 @implementer(IPlugin, service.IServiceMaker)	
@@ -44,8 +45,7 @@ class ClientPostServiceMaker(object):
     
     def makeService(self, options):
         #check directory with events for an oldest file
-        # do it every 10 second using TimerService     
-        loop_service = TimerService(10.0, check_for_files, options['hostport'], options['epath'], options['finaldir'],
+        loop_service = TimerService(float(options['looptime']), check_for_files, options['hostport'], options['epath'], options['finaldir'],
                         options['kfile'], options['cfile'])
         loop_service.startService()
         return loop_service
