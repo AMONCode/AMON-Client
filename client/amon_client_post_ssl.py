@@ -27,6 +27,7 @@ from twisted.python.filepath import FilePath
 
 path=host=False
 
+MOVEFILE=True
 
 class ResourcePrinter(Protocol):
     def __init__(self, finished):
@@ -39,27 +40,14 @@ class ResourcePrinter(Protocol):
         print('Finished receiving body:', reason.getErrorMessage())
         self.finished.callback(None)
 
-def printResource(response,oldpos=None,newpos=None):
+def printResource(response):
     finished = Deferred()
     response.deliverBody(ResourcePrinter(finished))
-    if oldpos is not None:
-        if newpos is not None:
-            try:
-                shutil.move(oldpos, newpos)
-                print("old location: %s, new location %s"%(oldpos, newpos))
-            except IOError:
-                if os.path.isfile(newpos):
-                    print("File already moved")
-                else:
-                    print("Check file: %s or %s"%(oldpos,newpos)) 
-                
+    MOVEFILE=True            
     return finished
 
 def printError(failure):
-    #d=Deferred()
-    #d.addCallbacks(printNotSent)
-    #print >>sys.stderr, failure
-    #print(type(failure.value), failure)
+    MOVEFILE=False
     failure.value.reasons[0].printTraceback()
 
 
@@ -158,7 +146,13 @@ def check_for_files(hostport, eventpath, finaldir, keyfile, certfile):
                 method = b'POST'#.encode()
                 d = agent.request(method, host, headers=headers, bodyProducer=body)
                 # on success it returns Deferred with a response object
-                d.addCallbacks(printResource, printError, callbackArgs=(oldpos, newpos))
+                print("\nFound file")
+                d.addCallbacks(printResource, printError)
+                if MOVEFILE:
+                    shutil.move(oldpos,newpos)
+                    print("old location: %s, new location %s"%(oldpos, newpos))
+                else:
+                    print("Check connection. File not moved")
             except (RuntimeError, TypeError, NameError, AttributeError, Exception) as e:
                 log.msg("Error parsing file %s " % (oldest,))
                 log.msg("Error: "+str(e))
