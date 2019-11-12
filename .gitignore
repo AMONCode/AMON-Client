@@ -1,0 +1,5 @@
+*pyc
+build
+dist
+AMON_client.egg-info
+*cache
