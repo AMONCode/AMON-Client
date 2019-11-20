@@ -4,9 +4,6 @@ This will include the AMON Client plugin as part of the twisted ddirectory. This
 
 After the installation, the plugin should be manageable as a twistd command. 
 
-For example:
-twistd -l client.log --pidfile client.pid clientpostssl --hostport "https://192.5.158.139/amon" --epath /path/to/alerts/ --finaldir $NAMEOFFINALDIR --cfile client_ic_dev.crt --kfile client_ic_dev.key
-
 '''
 
 __author__ = 'Hugo Ayala'
