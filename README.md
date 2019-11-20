@@ -36,14 +36,9 @@ You will need to receive the certificate and key files for SSL connection. Ask a
 
 _You can also define a directory for the log files_
 
-#### Send to the development AMON machine
+#### Send to the AMON machine
 ```
-twistd -l client.log --pidfile client.pid clientpostssl --hostport "https://192.5.158.145/amon" --epath /path/to/alerts/ --finaldir $NAMEOFFINALDIR --cfile client_ic_dev.crt --kfile client_ic_dev.key
-```
-
-#### Send to the production AMON dual servers
-```
-twistd -l client.log --pidfile client.pid clientpostssl --hostport "https://192.5.158.139/amon" --epath /path/to/alerts/ --finaldir $NAMEOFFINALDIR --cfile client_ic_prod.crt --kfile client_ic_prod.key
+twistd -l client.log --pidfile client.pid clientpostssl --hostport "<amon-host>" --epath /path/to/alerts/ --finaldir $NAMEOFFINALDIR --cfile client_ic_dev.crt --kfile client_ic_dev.key
 ```
 
 _An extra option is available to define the time in seconds to check files in epath_ `--looptime` 
