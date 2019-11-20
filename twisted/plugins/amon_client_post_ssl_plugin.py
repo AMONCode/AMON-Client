@@ -2,7 +2,7 @@
 client that sends events to the server using HTTP 
 protocol with method=POST
 Run with twistd. Default is run as a daemon process.
- twistd -l client.log --pidfile client.pid clientpostssl --hostport "https://isis.rcc.psu.edu/amon" 
+ twistd -l client.log --pidfile client.pid clientpostssl --hostport "<amon-hostport>" 
  --epath /path_to_client_ents --cfile client.crt --kfile client.key
  Kill it with kill `cat client.pid`
  Before running make directory archive within directory where your client events live.
