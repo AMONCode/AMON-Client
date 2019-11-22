@@ -133,7 +133,10 @@ def check_for_files(hostport, eventpath, finaldir, keyfile, certfile):
         fcerts = certfile
         # host=hostport.encode()
         path=eventpath
-        fdir = finaldir
+        if finaldir is None:
+            fdir =os.path.join(eventpath,'archive')
+        else:
+            fdir = finaldir
         # fkey = keyfile
         # fcert = certfile
 
@@ -154,7 +157,7 @@ def check_for_files(hostport, eventpath, finaldir, keyfile, certfile):
         if len(files_xml)>0:
             oldest = files_xml[0]
             oldpos = os.path.join(path, oldest)
-            newpos = os.path.join(path, fdir, oldest)
+            newpos = os.path.join(fdir, oldest)
 
             d_list = []
 
