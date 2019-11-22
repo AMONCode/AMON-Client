@@ -42,6 +42,8 @@ twistd -l client.log --pidfile client.pid clientpostssl --hostport "<amon-dev-ho
 ```
 This is if the events produced are in one computer, which will have the same key file for both certificates (unless you have produced two different key files). 
 
+If `finaldir` is not given, the program will create an `archive` directory in `epath` and send the events there. 
+
 _An extra option is available to define the time in seconds to check files in epath_ `--looptime` 
 
 #### Kill Daemon
