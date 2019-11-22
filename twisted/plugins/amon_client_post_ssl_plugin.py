@@ -31,7 +31,7 @@ class Options(usage.Options):
     optParameters = [
         ['hostport', 'hp', None, 'The host for https address. For multiple hosts supply them seperated by commas. '],
         ['epath', None, None, 'Path to the directory with VOEvents'],
-        ['finaldir', None, 'archive', 'Directory name for final position inside epath'],
+        ['finaldir', None, None, 'Directory name for final position'],
         ['kfile', None, None, 'Key file name. For multiple key files supply them seperated by commas. '],
         ['cfile', None, None, 'Certificate name. For multiple hosts supply cert file names seperated by commas. '],
         ['looptime','lt',10.0,'How often to check epath for files in seconds'],
