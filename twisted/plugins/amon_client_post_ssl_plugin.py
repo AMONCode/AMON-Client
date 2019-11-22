@@ -47,7 +47,6 @@ class ClientPostServiceMaker(object):
         #check directory with events for an oldest file
         loop_service = TimerService(float(options['looptime']), check_for_files, options['hostport'], options['epath'], options['finaldir'],
                         options['kfile'], options['cfile'])
-        loop_service.startService()
         return loop_service
         
 # finally, make a plugin 
