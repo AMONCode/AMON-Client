@@ -30,16 +30,17 @@ The command that should appear in the list is `clientpostssl`.
 
 ## How to use it:
 
-You will need to receive the certificate and key files for SSL connection. Ask any of the AMON team members for them. 
+You will need to receive the certificate and key files for SSL connection for both Development and Production machines. Ask any of the AMON team members for them. 
 
-### START DAEMON - run one of the two commands bellow 
+### START DAEMON - run the command bellow 
 
 _You can also define a directory for the log files_
 
 #### Send to the AMON machine
 ```
-twistd -l client.log --pidfile client.pid clientpostssl --hostport "<amon-host>" --epath /path/to/alerts/ --finaldir $NAMEOFFINALDIR --cfile client_ic_dev.crt --kfile client_ic_dev.key
+twistd -l client.log --pidfile client.pid clientpostssl --hostport "<amon-dev-host>, <amon-prod-host>" --epath /path/to/alerts/ --finaldir NAME_OF_FINALDIR --cfile "client_dev.crt, client_prod.crt" --kfile client.key
 ```
+This is if the events produced are in one computer, which will have the same key file for both certificates (unless you have produced two different key files). 
 
 _An extra option is available to define the time in seconds to check files in epath_ `--looptime` 
 
