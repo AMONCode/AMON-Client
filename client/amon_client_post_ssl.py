@@ -135,6 +135,7 @@ def check_for_files(hostport, eventpath, finaldir, keyfile, certfile):
         path=eventpath
         if finaldir is None:
             fdir =os.path.join(eventpath,'archive')
+            os.mkdir(fdir)
         else:
             fdir = finaldir
         # fkey = keyfile
