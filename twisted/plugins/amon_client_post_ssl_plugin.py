@@ -1,13 +1,9 @@
 """@package amon_client_post_events_ssl
-client that sends events to the server using HTTP
-protocol with method=POST
+Client that sends events to the AMON server using HTTP
+protocol with method=POST.
 Run with twistd. Default is run as a daemon process.
- twistd -l client.log --pidfile client.pid clientpostssl --hostport "<amon-hostport>"
- --epath /path_to_client_ents --cfile client.crt --kfile client.key
- Kill it with kill `cat client.pid`
- Before running make directory archive within directory where your client events live.
- Each sent event will be moved from client directory to archive directory.
- Modify if you do not want to save sent events.
+Each sent event will be moved from client directory to archive directory.
+archive directory is created if not final dir is given.
 """
 import sys, getopt, os, shutil, datetime
 import resource
