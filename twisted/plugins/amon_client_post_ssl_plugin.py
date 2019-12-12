@@ -30,7 +30,7 @@ class Options(usage.Options):
         ['finaldir', None, None, 'Directory name for final position'],
         ['kfile', None, None, 'Key file name. For multiple key files supply them seperated by commas. '],
         ['cfile', None, None, 'Certificate name. For multiple hosts supply cert file names seperated by commas. '],
-        ['looptime','lt',10.0,'How often to check epath for files in seconds'],
+        ['looptime','lt',1.0,'How often to check epath for files in seconds'],
         ]
 
     def postOptions(self):
