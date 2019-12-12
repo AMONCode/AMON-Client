@@ -46,7 +46,7 @@ else:
 
 setup(
     name="AMON-client",
-    version = "1.0",
+    version = "2.1",
     description = "AMON client to send events",
     author = __author__,
     author_email = 'hgayala@psu.edu',
