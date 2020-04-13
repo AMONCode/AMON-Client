@@ -50,7 +50,7 @@ kill `cat client.pid`
 
 ## Dependencies:
  * Twisted >=19.2.1 (recommended >=15.1.1) 
- * PyOpenSSL >=0.14 (recommended >=0.15.11) 
+ * PyOpenSSL >=19.0.0 
  * pycrypto >= 2.6.1 
  * cffi (recommended >=1.1.0) 
  * cryptography (recommended >=0.9) 
